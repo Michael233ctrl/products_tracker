@@ -9,8 +9,21 @@ class AveragePriceForPeriodResponseSerializer(serializers.Serializer):
 
 
 class AveragePriceForPeriodSerializer(serializers.Serializer):
+    category = serializers.CharField(required=False, allow_null=True)
+    product = serializers.CharField(required=False, allow_null=True)
     start_date = serializers.DateField()
     end_date = serializers.DateField()
+
+    def validate(self, attrs):
+        if attrs["start_date"] > attrs["end_date"]:
+            raise serializers.ValidationError(
+                "'end_date' must be bigger than 'start_date'"
+            )
+        return attrs
+
+
+class SetCategoryPriceSerializer(serializers.Serializer):
+    price = serializers.DecimalField(max_digits=7, decimal_places=2)
 
 
 class PriceSerializer(serializers.ModelSerializer):

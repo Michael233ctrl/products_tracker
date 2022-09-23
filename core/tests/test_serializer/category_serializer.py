@@ -5,7 +5,7 @@ from core.serializers import CategorySerializer
 
 
 class CategorySerializerTestCase(APITestCase):
-    def test_ok(self):
+    def test_success(self):
         cat_1 = Category.objects.create(name="Test serializer category 1")
         cat_2 = Category.objects.create(name="Test serializer category 2")
         serializer_data = CategorySerializer([cat_1, cat_2], many=True).data
