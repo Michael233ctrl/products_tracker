@@ -8,7 +8,7 @@ from core.tests.test_api.test_base import BaseApiTestCase
 
 
 class PriceApiTestCase(BaseApiTestCase):
-    def test_create(self):
+    def test_create_success(self):
         url = reverse("prices-list")
         data = {
             "product": self.product_2.id,

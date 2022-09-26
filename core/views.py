@@ -5,6 +5,10 @@ from rest_framework.response import Response
 
 from core import serializers
 from core.models import Category, Product, PriceHistory
+from core.utils.price_utils import (
+    calculate_average_price_for_period,
+    set_category_price,
+)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -48,7 +52,7 @@ class PriceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
 
-        avg_price = PriceHistory.calculate_average_price_for_period(
+        avg_price = calculate_average_price_for_period(
             queryset, serializer.validated_data
         )
         response_serializer = serializers.AveragePriceForPeriodResponseSerializer(
@@ -71,8 +75,6 @@ class PriceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        products = PriceHistory.set_category_price(
-            queryset, serializer.validated_data["price"]
-        )
+        products = set_category_price(queryset, serializer.validated_data["price"])
         response_serializer = serializers.PriceSerializer(products, many=True)
         return Response(response_serializer.data, status=status.HTTP_200_OK)
