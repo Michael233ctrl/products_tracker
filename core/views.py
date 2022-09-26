@@ -61,7 +61,7 @@ class PriceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     )
     @action(
         detail=True,
-        methods=["POST"],
+        methods=["PATCH"],
         serializer_class=serializers.SetCategoryPriceSerializer,
         name="set_category_price",
     )

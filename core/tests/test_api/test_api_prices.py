@@ -70,7 +70,7 @@ class PriceApiTestCase(BaseApiTestCase):
         url = reverse("prices-list") + f"{self.category_1.id}/set_category_price/"
         data = {"price": "18.99"}
         json_data = json.dumps(data)
-        response = self.client.post(
+        response = self.client.patch(
             url, data=json_data, content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
