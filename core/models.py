@@ -53,7 +53,7 @@ class PriceHistory(models.Model):
         return (
             queryset.filter(
                 Q(prices__start_date__gte=start_date)
-                & Q(prices__start_date__lte=end_date)
+                & Q(prices__end_date__lte=end_date)
             )
             .annotate(avg_product_price=Avg("prices__price"))
             .values("name", "avg_product_price")
